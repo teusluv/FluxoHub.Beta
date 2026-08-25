@@ -1,0 +1,52 @@
+name: Web Admin CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'web-admin/**'
+      - '.github/workflows/web-admin-ci.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'web-admin/**'
+
+jobs:
+  lint-and-typecheck:
+    name: Lint, Type Check & Build (Next.js)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web-admin/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd web-admin
+          npm ci
+
+      - name: ESLint
+        run: |
+          cd web-admin
+          npm run lint
+
+      - name: TypeScript type check
+        run: |
+          cd web-admin
+          npm run type-check
+
+      - name: Build (production)
+        run: |
+          cd web-admin
+          npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080
+          NEXTAUTH_SECRET: ci_secret
+          NEXTAUTH_URL: http://localhost:3000

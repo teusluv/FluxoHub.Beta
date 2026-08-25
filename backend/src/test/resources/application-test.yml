@@ -1,0 +1,33 @@
+# =============================================================================
+# Profile TEST — usado pelos testes de integração (Testcontainers)
+# O datasource real é configurado via @DynamicPropertySource no AbstractIntegrationTest
+# =============================================================================
+
+spring:
+  jpa:
+    show-sql: true
+
+  # Flyway roda normalmente em testes (usando o banco do Testcontainer)
+  flyway:
+    enabled: true
+
+pod:
+  jwt:
+    # Sobrescrito via @DynamicPropertySource — este valor é só fallback
+    secret: dGVzdFNlY3JldEtleUZvclBvZFN5c3RlbUludGVncmF0aW9uVGVzdHMxMjM0NTY3ODk=
+    access-expiry-ms: 900000
+    refresh-expiry-ms: 604800000
+  storage:
+    endpoint: http://localhost:9000
+    access-key: test
+    secret-key: test
+    bucket: test
+    presigned-url-expiry-minutes: 15
+  ocr:
+    provider: mock
+
+logging:
+  level:
+    br.com.pod: DEBUG
+    org.springframework.security: WARN
+    org.flywaydb: INFO

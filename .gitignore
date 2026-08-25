@@ -1,0 +1,67 @@
+# =============================================================================
+# .gitignore — POD System Monorepo
+# =============================================================================
+
+# Variáveis de ambiente com segredos reais
+.env
+.env.local
+.env.*.local
+
+# Credenciais GCP (nunca commitar)
+*.json
+!package.json
+!package-lock.json
+!tsconfig*.json
+!**/shadcn*.json
+secrets/
+
+# =============================================================================
+# Java / Maven
+# =============================================================================
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+!backend/.mvn/wrapper/maven-wrapper.properties
+*.class
+*.jar
+*.war
+*.ear
+*.log
+hs_err_pid*
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+*.swp
+
+# =============================================================================
+# Node / Next.js / React Native
+# =============================================================================
+node_modules/
+.next/
+out/
+dist/
+.expo/
+.expo-shared/
+*.tsbuildinfo
+
+# Expo
+android/
+ios/
+.env.local
+
+# =============================================================================
+# Docker
+# =============================================================================
+# Volumes locais montados (se usar bind mount em vez de named volumes)
+data/postgres/
+data/minio/
+
+# =============================================================================
+# OS
+# =============================================================================
+.DS_Store
+Thumbs.db
+desktop.ini

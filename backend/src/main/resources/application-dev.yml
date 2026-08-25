@@ -1,0 +1,34 @@
+# =============================================================================
+# Profile DEV — sobrescreve apenas o necessário
+# =============================================================================
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB:fluxohub_db}
+    username: ${POSTGRES_USER:fluxohub_user}
+    password: ${POSTGRES_PASSWORD:dev_password}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+pod:
+  jwt:
+    secret: ZGV2U2VjcmV0S2V5UGFyYURlc2Vudm9sdmltZW50b0xvY2FsUG9kU2lzdGVtYTIwMjQ=
+  storage:
+    endpoint: http://localhost:9000
+    access-key: minioadmin
+    secret-key: dev_password
+  ocr:
+    # Em dev, usa um provider mock para não consumir cota do GCP
+    provider: mock
+
+logging:
+  level:
+    br.com.pod: DEBUG
+    org.springframework.security: DEBUG
