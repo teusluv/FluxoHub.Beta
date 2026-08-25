@@ -73,7 +73,8 @@ public class EntregaService {
     @Transactional
     public EntregaResponse criar(CriarEntregaRequest req) {
         var usuario = SecurityUtils.getCurrentUsuario();
-        var filial = usuario.getFilial();
+        var filial = filialRepository.findById(usuario.getFilial().getId())
+                .orElseThrow(() -> new PodException.NaoEncontrado("Filial", usuario.getFilial().getId()));
 
         // 1. Idempotência por idempotencyKey
         if (req.idempotencyKey() != null && !req.idempotencyKey().trim().isEmpty()) {

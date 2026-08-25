@@ -27,4 +27,5 @@ export const ENDPOINTS = {
   canhotos: '/api/v1/canhotos',
   batchSync: '/api/v1/canhotos/batch-sync',
   canhotosPorEntrega: (id: string) => `/api/v1/canhotos/entrega/${id}`,
+  notas:    (entregaId: string) => `/api/v1/entregas/${entregaId}/notas`,
 };

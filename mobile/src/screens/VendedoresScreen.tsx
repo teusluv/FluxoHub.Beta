@@ -27,7 +27,7 @@ interface Entrega {
   dataEntregaReal: string | null;
 }
 
-export default function VendedoresScreen() {
+export default function VendedoresScreen({ navigation }: any) {
   const { auth, logout } = useAuth();
   const [entregas, setEntregas] = useState<Entrega[]>([]);
   const [loading, setLoading] = useState(true);
@@ -168,7 +168,11 @@ export default function VendedoresScreen() {
             const hasCanhoto = item.status === 'ENTREGUE_COM_CANHOTO';
 
             return (
-              <View style={styles.listItem}>
+              <TouchableOpacity
+                style={styles.listItem}
+                onPress={() => navigation.navigate('Detalhe', { entrega: item })}
+                activeOpacity={0.8}
+              >
                 <View style={{ flex: 1 }}>
                   <View style={styles.listRow}>
                     <Text style={styles.nfText}>NF {item.numeroNotaFiscal}</Text>
@@ -178,15 +182,24 @@ export default function VendedoresScreen() {
                   <Text style={styles.motoristaText}>Motorista: {item.motoristaNome || 'Não atribuído'}</Text>
                 </View>
 
-                {hasCanhoto && (
+                <View style={styles.itemActions}>
                   <TouchableOpacity
-                    style={styles.btnCanhoto}
-                    onPress={() => handleVisualizarCanhoto(item)}
+                    style={styles.btnNotas}
+                    onPress={() => navigation.navigate('Detalhe', { entrega: item })}
                   >
-                    <Text style={styles.btnCanhotoText}>VER CANHOTO</Text>
+                    <Text style={styles.btnNotasText}>📝 NOTAS</Text>
                   </TouchableOpacity>
-                )}
-              </View>
+
+                  {hasCanhoto && (
+                    <TouchableOpacity
+                      style={styles.btnCanhoto}
+                      onPress={() => handleVisualizarCanhoto(item)}
+                    >
+                      <Text style={styles.btnCanhotoText}>CANHOTO</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </TouchableOpacity>
             );
           }}
           contentContainerStyle={{ padding: SPACING.lg, paddingBottom: 80 }}
@@ -277,17 +290,30 @@ const styles = StyleSheet.create({
   clienteText: { color: COLORS.textSecondary, fontSize: 13, marginTop: 4 },
   motoristaText: { color: COLORS.textMuted, fontSize: 11, marginTop: 4 },
   statusText: { fontWeight: '900', fontSize: 10, letterSpacing: 0.5 },
-  
-  btnCanhoto: {
-    backgroundColor: 'rgba(79, 124, 255, 0.1)',
-    borderWidth: 1,
-    borderColor: '#4f7cff30',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: RADIUS.sm,
-    marginLeft: 12,
+  itemActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginLeft: 8,
   },
-  btnCanhotoText: { color: '#4f7cff', fontSize: 10, fontWeight: 'bold' },
+  btnNotas: {
+    backgroundColor: '#b5c4ff20',
+    borderWidth: 1,
+    borderColor: '#b5c4ff40',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: RADIUS.sm,
+  },
+  btnNotasText: { color: '#b5c4ff', fontSize: 10, fontWeight: 'bold' },
+  btnCanhoto: {
+    backgroundColor: 'rgba(46, 204, 113, 0.15)',
+    borderWidth: 1,
+    borderColor: '#2ECC7140',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: RADIUS.sm,
+  },
+  btnCanhotoText: { color: '#2ECC71', fontSize: 10, fontWeight: 'bold' },
 
   emptyContainer: { alignItems: 'center', marginTop: 40 },
   emptyText: { color: COLORS.textMuted, fontSize: 14 },

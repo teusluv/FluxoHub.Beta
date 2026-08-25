@@ -87,9 +87,17 @@ public class SecurityConfig {
                         // Endpoints de admin — somente ADMIN
                         .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
 
-                        // Endpoints de vendedor — VENDEDOR ou ADMIN
+                        // Endpoints de vendedor e entregas
+                        .requestMatchers(HttpMethod.POST, "/api/v1/entregas/*/notas")
+                                .hasAnyAuthority("VENDEDOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/entregas/*/notas")
+                                .hasAnyAuthority("VENDEDOR", "ADMIN", "MOTORISTA")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/entregas")
+                                .hasAnyAuthority("VENDEDOR", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/entregas/**")
                                 .hasAnyAuthority("VENDEDOR", "ADMIN", "MOTORISTA")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/entregas/*/status")
+                                .hasAnyAuthority("MOTORISTA", "VENDEDOR", "ADMIN")
                         .requestMatchers("/api/v1/vendedor/**").hasAnyAuthority("VENDEDOR", "ADMIN")
 
                         // Canhotos: motorista pode fazer upload; vendedor/admin podem ler

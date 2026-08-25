@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import { getSyncQueue, removeSyncItem, addToSyncQueue, updateSyncItemRetries } from '../services/storage';
-import { apiPatch } from '../services/api';
+import { apiPatch, apiPost } from '../services/api';
 import { API_BASE_URL, ENDPOINTS } from '../constants/api';
 import { SyncItem } from '../types';
 import * as SecureStore from 'expo-secure-store';
@@ -75,6 +75,8 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
             await apiPatch(ENDPOINTS.status(item.entregaId), item.payload);
           } else if (item.tipo === 'CANHOTO') {
             await uploadCanhotoMultipart(item);
+          } else if (item.tipo === 'NOTA') {
+            await apiPost(ENDPOINTS.notas(item.entregaId), item.payload);
           }
           await removeSyncItem(item.id);
           console.log(`[Sync] Item ${item.id} sincronizado com sucesso`);

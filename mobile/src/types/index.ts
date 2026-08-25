@@ -52,7 +52,7 @@ export interface Page<T> {
 // Fila de sync offline
 export interface SyncItem {
   id: string;         // UUID local
-  tipo: 'STATUS' | 'CANHOTO';
+  tipo: 'STATUS' | 'CANHOTO' | 'NOTA';
   entregaId: string;
   payload: object;
   tentativas: number;
@@ -73,4 +73,22 @@ export interface Canhoto {
   sincronizadoEm: string;
   deviceId: string;
 }
+
+// Tipos de Notas / Observações
+export type TipoNota = 'GERAL' | 'INSTRUCAO_ENTREGA' | 'DIVERGENCIA' | 'INTERNA';
+
+export interface NotaEntrega {
+  id: string;
+  entregaId: string;
+  autorId: string;
+  autorNome: string;
+  autorPapel: Papel;
+  filialId: string;
+  tipo: TipoNota;
+  conteudo: string;
+  idempotencyKey?: string;
+  criadoEm: string;
+  isPendingSync?: boolean;
+}
+
 

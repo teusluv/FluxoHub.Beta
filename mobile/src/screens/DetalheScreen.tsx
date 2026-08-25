@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useSync } from '../context/SyncContext';
 import { Entrega, StatusEntrega } from '../types';
 import { COLORS, SPACING, RADIUS } from '../constants/theme';
+import NotasSection from '../components/NotasSection';
 
 const PROXIMOS_STATUS: Partial<Record<StatusEntrega, StatusEntrega>> = {
   PENDENTE: 'EM_ROTA',
@@ -107,6 +108,9 @@ export default function DetalheScreen({ route, navigation }: any) {
             <InfoRow label="Nome" value={entrega.vendedorNome} />
           </View>
         )}
+
+        {/* Seção de Notas e Observações */}
+        <NotasSection entregaId={entrega.id} />
 
         {/* Ações */}
         <View style={styles.actions}>

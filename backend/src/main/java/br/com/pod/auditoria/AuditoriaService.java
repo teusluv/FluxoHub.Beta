@@ -36,6 +36,7 @@ public class AuditoriaService {
     public static final String CANHOTO_INVALIDADO       = "CANHOTO_INVALIDADO";
     public static final String OCR_CONCLUIDO            = "OCR_CONCLUIDO";
     public static final String OCR_NECESSITA_REVISAO    = "OCR_NECESSITA_REVISAO";
+    public static final String NOTA_ENTREGA_CRIADA      = "NOTA_ENTREGA_CRIADA";
 
     private final AuditoriaRepository auditoriaRepository;
 
